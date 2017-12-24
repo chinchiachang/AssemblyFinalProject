@@ -60,7 +60,7 @@ cScore  DWORD   0d  ; Total score
 d       BYTE    'w' ; Variable for holding the current direction of the snake
 wall    BYTE    'n' ;where is the wall
 newD    BYTE    'w' ; Variable for holding the new direction specified by input
-delTime DWORD   150 ; Delay time between frames (game speed)
+delTime DWORD   100 ; Delay time between frames (game speed)
 
 ; Strings for menu display
 menuS   BYTE "1. Start Game", 0Dh, 0Ah, 0
