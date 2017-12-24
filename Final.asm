@@ -60,7 +60,7 @@ cScore  DWORD   0d  ; Total score
 d       BYTE    'w' ; Variable for holding the current direction of the snake
 wall    BYTE    'n' ;where is the wall
 newD    BYTE    'w' ; Variable for holding the new direction specified by input
-delTime DWORD   100 ; Delay time between frames (game speed)
+delTime DWORD   110 ; Delay time between frames (game speed)
 
 ; Strings for menu display
 menuS   BYTE "1. Start Game", 0Dh, 0Ah, 0
@@ -794,7 +794,7 @@ createFood PROC USES EAX EBX EDX
 ; doesn't overlap with the snake or the obstacles.
 
     redo:                       ; Loop for food position generation
-    MOV EAX,  24                 ; Generate a radnom integer in the
+    MOV EAX,  24                ; Generate a radnom integer in the
     CALL RandomRange            ; range 0 to numRows - 1
     MOV DH, AL
 
@@ -810,10 +810,10 @@ createFood PROC USES EAX EBX EDX
     MOV fR, DH                  ; Set food row value
     MOV fC, DL                  ; Set food column value
 
-    MOV EAX, white + (black * 16); Set text color to white on cyan
+    MOV EAX, 14 + (black * 16); Set text color to white on cyan
     CALL setTextColor
     CALL GotoXY                 ; Move cursor to generated position
-    MOV AL, '%'                 ; Write whitespace to terminal
+    MOV AL, '*'                 ; Write whitespace to terminal
     CALL WriteChar
 
     RET
@@ -950,49 +950,7 @@ GenLevel PROC
     ;CMP AL, 1               ; Check if level choice is without obstacles
     ;JNE nextL               ; If not, jump to next level selection
     
-
-
-
-
-    ;MOV newD, 'd'       ; Set the default direction to down, as not to run
-    ;MOV DH, 1           ; immediately into a wall
-    ;MOV DL, 1           ; Set row and column numbers to 11 and 0
-    ;MOV BX, 0FFFFh      ; Set value for writing into framebuffer
-
-    ;.while DL!=22
-    ;    CALL saveIndex  ; Write obstacle value to framebuffer
-    ;    INC DL
-    ;.ENDW
-
-    ;RET
-    ;MOV newD, 'd'       ; Set the default direction to down, as not to run
-    ;MOV DH, 1           ; immediately into a wall
-    ;MOV DL, 1           ; Set row and column numbers to 11 and 0
-    ;MOV BX, 0FFFFh      ; Set value for writing into framebuffer
-
-    ;draw:
-    ;    CALL saveIndex  ; Write obstacle value to framebuffer
-    ;    INC DL          ; Increment column number
-    ;    JMP L1
-    ;L1:
-    ;    CMP DL, 7
-    ;    JGE L2
-    ;    JMP draw
-    ;L2:
-    ;    INC DL
-    ;    CMP DL, 14
-    ;    JGE L3
-    ;    DEC DL
-    ;    JMP draw
-    ;L3:
-    ;    CMP DL, 22
-    ;    JGE L4
-    ;    JMP draw
-    ;L4: 
-    ;    CMP DL, 29
-    ;    JGE endLoop
-    ;endLoop:
-    ;RET    
+  
     ;draw map by CC-------------------------------------------------------------------------------
     nextL2:                 ; Section for generating rooms level
 
@@ -1628,42 +1586,6 @@ GenLevel PROC
 
     RET
     ;draw map by CC-----------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
