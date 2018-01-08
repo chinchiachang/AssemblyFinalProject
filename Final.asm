@@ -30,7 +30,7 @@ a WORD 720 DUP(0)  ; Framebuffer ( 24*30)
 ;     BYTE "W              W                     W              W"
 ;     BYTE "W   WWWWWWWWWWWWWWWWWWW   W   WWWWWWWWWWWWWWWWWWW   W"
 ;     BYTE "W                         W                         W"
-;     BYTE "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", 0 
+;     BYTE "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", 0
   
 
 hR BYTE 13d         ; Snake head row number
@@ -58,8 +58,15 @@ wall    BYTE    'n'
 newD    BYTE    'w' 
 delTime DWORD   110 
 
-
-menuS   BYTE "1. Start Game", 0Dh, 0Ah, 0
+menustar BYTE "               *",0Dh,0Ah,0
+menuS   BYTE " 	       ^",0Dh,0Ah,
+             "              ^^^",0Dh,0Ah,
+             "             ^.^.^",0Dh,0Ah,
+             "            ^.^^^.^",0Dh,0Ah,
+             "           ^.^^.^^.^",0Dh,0Ah,0
+menutree BYTE "               H",0Dh,0Ah,
+              "               H",0Dh,0Ah,0Dh,0Ah,0Dh,0Ah,0Dh,0Ah,0Dh,0Ah,0
+menustart BYTE "           Start Game", 0Dh, 0Ah, 0
 
 scoreS  BYTE "Score: 0", 0
 
@@ -75,9 +82,27 @@ main PROC
 
     menu:
     CALL Randomize              
-    CALL Clrscr                 
+    CALL Clrscr  
+
+    MOV EAX, yellow + (black * 16)
+    CALL SetTextColor               
+    MOV EDX, OFFSET menustar       
+    CALL WriteString 
+
+    MOV EAX, 10 + (black * 16)
+    CALL SetTextColor
     MOV EDX, OFFSET menuS       
-    CALL WriteString            
+    CALL WriteString  
+
+    MOV EAX, 6 + (black * 16)
+    CALL SetTextColor
+    MOV EDX, OFFSET menutree       
+    CALL WriteString
+
+    MOV EAX, white + (black * 16)
+    CALL SetTextColor
+    MOV EDX, OFFSET menustart       
+    CALL WriteString       
 
     wait1:                      
     CALL ReadChar
@@ -382,7 +407,7 @@ MoveSnake PROC USES EBX EDX
 
     foodNotGobbled:        
     CALL GotoXY            
-    MOV EAX, black + (white * 16);
+    MOV EAX, black + (12 * 16);
     CALL setTextColor       
     MOV AL, ' '             
     CALL WriteChar
@@ -399,7 +424,7 @@ MoveSnake PROC USES EBX EDX
         CALL saveIndex      
 
         CALL GotoXY         
-        MOV EAX, black + (white * 16)
+        MOV EAX, black + (12 * 16)
         CALL SetTextColor
         MOV AL, ' '
         CALL WriteChar
@@ -419,7 +444,7 @@ createFood PROC USES EAX EBX EDX
 
 
     redo:                       
-    MOV EAX,  24                
+    MOV EAX,  24     
     CALL RandomRange            
     MOV DH, AL
 
@@ -437,7 +462,7 @@ createFood PROC USES EAX EBX EDX
 
     MOV EAX, 14 + (black * 16)
     CALL setTextColor
-    CALL GotoXY                 
+    CALL GotoXY 
     MOV AL, '*'                 
     CALL WriteChar
 
@@ -528,7 +553,7 @@ Paint PROC USES EAX EDX EBX ESI
             JMP NoPrint             
 
             PrintHurdle:           
-            MOV EAX, blue + (gray * 16) 
+            MOV EAX, 0 + (green * 16) 
             CALL SetTextColor
 
             MOV AL, ' '          
@@ -555,7 +580,7 @@ GenLevel PROC
 
     
   
-    ;draw map by CC-------------------------------------------------------------------------------
+    ;draw map-------------------------------------------------------------------------------
     nextL2:                 
 
         MOV newD, 'd'       
@@ -1186,7 +1211,7 @@ GenLevel PROC
         endRLoop18:
 
     RET
-    ;draw map by CC-----------------------------------------------------------------------------*/
+    ;draw map -----------------------------------------------------------------------------*/
 
 
 
